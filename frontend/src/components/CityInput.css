@@ -1,0 +1,64 @@
+.city-input-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 25px;
+  border-radius: 20px;
+}
+
+.city-input-container input {
+  padding: 12px 20px;
+  font-size: 18px;
+  width: 450px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  outline: none;
+  font-weight: 500;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+  transition: 0.3s ease;
+}
+
+.city-input-container input::placeholder {
+  color: #e0e0e0;
+}
+
+.city-input-container input:focus {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 8px #00c6ff;
+  color: white;
+}
+
+.city-input-container button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 198, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.city-input-container button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00f2fe;
+}
+/* Mobile adjustments */
+@media screen and (max-width: 600px) {
+  .city-input-container {
+    flex-direction: column;
+    align-items: center; /* 👈 This centers items horizontally */
+    padding: 10px;
+  }
+
+  .city-input-container input,
+  .city-input-container button {
+    width: 100%;
+    max-width: 300px; /* Optional: limits input/button width for small screens */
+  }
+}
