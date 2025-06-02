@@ -9,7 +9,7 @@ import { WiHumidity, WiStrongWind, WiSunrise, WiSunset, WiRaindrop, WiBarometer 
 
 const fetchWeather = async (city) => {
   try {
-    const response = await axios.get(`http://localhost:5000/weather?city=${city}`);
+    const response = await axios.get(`/.netlify/functions/getWeather?city=${city}`);
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 404) {
