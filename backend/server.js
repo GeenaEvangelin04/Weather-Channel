@@ -9,7 +9,7 @@ const PORT = 5000;
 app.get("/weather", async (req, res) => {
   try {
     const city = req.query.city;
-    const API_KEY = "d22745dc378799b2aa5eea5d1fe1505d";
+    const API_KEY = process.env.API_KEY;
     const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
     );
