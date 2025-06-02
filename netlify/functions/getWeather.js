@@ -2,7 +2,7 @@ const axios = require("axios");
 
 exports.handler = async function(event, context) {
   const city = event.queryStringParameters.city;
-  const API_KEY = process.env.REACT_APP_API_KEY;
+  const API_KEY = process.env.API_KEY;  // removed REACT_APP_ prefix
 
   try {
     const response = await axios.get(
