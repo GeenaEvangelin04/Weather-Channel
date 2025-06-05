@@ -1,12 +1,21 @@
 const axios = require("axios");
 
 exports.handler = async function(event, context) {
-  const city = event.queryStringParameters.city;
-  const API_KEY = process.env.API_KEY;  // removed REACT_APP_ prefix
+  let city = event.queryStringParameters.city;
+  if (!city) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "City parameter is required" })
+    };
+  }
+
+  city = city.trim();  // 🪄 Trim whitespace
+
+  const API_KEY = process.env.API_KEY;
 
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`
     );
     return {
       statusCode: 200,

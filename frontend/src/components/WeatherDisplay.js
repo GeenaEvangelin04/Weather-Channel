@@ -9,7 +9,9 @@ import { WiHumidity, WiStrongWind, WiSunrise, WiSunset, WiRaindrop, WiBarometer 
 
 const fetchWeather = async (city) => {
   try {
-    const response = await axios.get(`/.netlify/functions/getWeather?city=${city}`);
+    // Trim city name and encode it to handle spaces properly
+    const trimmedCity = city.trim();
+    const response = await axios.get(`/.netlify/functions/getWeather?city=${encodeURIComponent(trimmedCity)}`);
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 404) {
@@ -98,49 +100,47 @@ const WeatherDisplay = () => {
   return (
     <motion.div className="weather-container stylish-bg">
       <motion.div 
-  className="weather-card glass-effect stylish-card"
-  initial={{ x: -50, opacity: 0 }}
-  animate={{ x: 0, opacity: 1 }}
-  transition={{ duration: 0.8 }}
->
-  {/* Overlay gradient with low opacity */}
-  <div className="weather-bg-overlay" style={{ background }}></div>
+        className="weather-card glass-effect stylish-card"
+        initial={{ x: -50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="weather-bg-overlay" style={{ background }}></div>
 
-  {/* Card content */}
-  <div className="weather-icon icon-highlight">{weatherIcon}</div>
-  <h2 className="city-name bold-text">{data.name}</h2>
-  <p className="temperature large-text">{data.main.temp}°C</p>
-  <p className="weather-desc italic-text">{data.weather[0].description}</p>
+        <div className="weather-icon icon-highlight">{weatherIcon}</div>
+        <h2 className="city-name bold-text">{data.name}</h2>
+        <p className="temperature large-text">{data.main.temp}°C</p>
+        <p className="weather-desc italic-text">{data.weather[0].description}</p>
 
-  <div className="sunrise-sunset-bar">
-    <WiSunrise size={30} />
-    <div className="progress-bar-container">
-      <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-    </div>
-    <WiSunset size={30} />
-  </div>
+        <div className="sunrise-sunset-bar">
+          <WiSunrise size={30} />
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+          </div>
+          <WiSunset size={30} />
+        </div>
 
-  <div className="time-labels">
-    <span>{sunrise.toLocaleTimeString()}</span>
-    <span>{sunset.toLocaleTimeString()}</span>
-  </div>
+        <div className="time-labels">
+          <span>{sunrise.toLocaleTimeString()}</span>
+          <span>{sunset.toLocaleTimeString()}</span>
+        </div>
 
-  <div className="weather-details-grid">
-    <div className="detail-item"><WiHumidity size={30} /> Humidity: {data.main.humidity}%</div>
-    <div className="detail-item"><WiRaindrop size={30} /> Rain: {data.rain ? `${data.rain['1h']} mm` : "No Rain"}</div>
-    <div className="detail-item">
-      <WiStrongWind size={30} /> Wind Speed: {windSpeed} {windSpeedUnit} 
-      <button className="toggle-btn stylish-button" onClick={toggleWindSpeedUnit}>Toggle Unit</button>
-    </div>
-    <div className="detail-item"><WiBarometer size={30} /> Pressure: {data.main.pressure}mb</div>
-  </div>
+        <div className="weather-details-grid">
+          <div className="detail-item"><WiHumidity size={30} /> Humidity: {data.main.humidity}%</div>
+          <div className="detail-item"><WiRaindrop size={30} /> Rain: {data.rain ? `${data.rain['1h']} mm` : "No Rain"}</div>
+          <div className="detail-item">
+            <WiStrongWind size={30} /> Wind Speed: {windSpeed} {windSpeedUnit} 
+            <button className="toggle-btn stylish-button" onClick={toggleWindSpeedUnit}>Toggle Unit</button>
+          </div>
+          <div className="detail-item"><WiBarometer size={30} /> Pressure: {data.main.pressure}mb</div>
+        </div>
 
-  <p className="radar-map link-text">
-    <a href={`https://www.windy.com/?${data.coord.lat},${data.coord.lon},10`} target="_blank" rel="noopener noreferrer">
-      View Radar Map
-    </a>
-  </p>
-</motion.div>
+        <p className="radar-map link-text">
+          <a href={`https://www.windy.com/?${data.coord.lat},${data.coord.lon},10`} target="_blank" rel="noopener noreferrer">
+            View Radar Map
+          </a>
+        </p>
+      </motion.div>
     </motion.div>
   );
 };
